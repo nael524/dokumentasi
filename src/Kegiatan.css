@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+/* GLOBAL CONTAINER - BACKGROUND PUTIH BERSIH */
+.kegiatan-container {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    background-color: #ffffff;
+    color: #0f172a;
+    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* HEADER CARD */
+.kegiatan-header {
+    text-align: center;
+    width: 100%;
+    max-width: 480px;
+    padding: 32px 24px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.06);
+    box-sizing: border-box;
+}
+
+.kegiatan-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    background-color: #e0f2fe;
+    color: #0284c7;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.kegiatan-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.kegiatan-subtitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0284c7;
+    margin: 6px 0 0 0;
+}
+
+/* TOMBOL AKSI */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* TOMBOL UTAMA - BIRU LOADER (CERAH & ENERGETIK) */
+.btn-primary {
+    background-color: #0284c7;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+}
+
+.btn-primary:hover {
+    background-color: #0077b6;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* TOMBOL SEKUNDER - AKSEN SOFT BLUE */
+.btn-secondary {
+    background-color: #ffffff;
+    color: #0284c7;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid #bae6fd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.btn-secondary:hover {
+    background-color: #f0f9ff;
+    border-color: #38bdf8;
+}
+
+.btn-secondary:active {
+    transform: scale(0.98);
+}
+
+/* MODAL KAMERA (POPUP) */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.modal-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 40px -10px rgba(2, 132, 199, 0.2);
+    color: #0f172a;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-sizing: border-box;
+}
+
+.modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-top h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0284c7;
+}
+
+.modal-top-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    color: #0284c7;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.btn-icon:hover {
+    color: #0077b6;
+    background-color: #e0f2fe;
+}
+
+/* PREVIEW KAMERA & HASIL */
+.camera-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.camera-preview,
+.result-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    background-color: #0f172a;
+    object-fit: cover;
+}
+
+/* Mirroring khusus untuk Kamera Depan */
+.camera-preview.mirror {
+    transform: scaleX(-1);
+}
+
+.result-img {
+    border: 2px solid #0284c7;
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.2);
+}
+
+.meta-box {
+    background-color: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #0369a1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-weight: 600;
+}
+
+.meta-box div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+/* RESPONSIVE TABLET & DESKTOP */
+@media (min-width: 640px) {
+    .action-buttons {
+        flex-direction: row;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        flex: 1;
+    }
+}

@@ -1,0 +1,191 @@
+.storage-modal {
+    max-width: 850px !important;
+    width: 90% !important;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px !important;
+    background: #0f172a !important;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #1e293b;
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.modal-subtitle {
+    margin: 0;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.btn-close {
+    background: #1e293b;
+    border: none;
+    color: #94a3b8;
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-close:hover {
+    color: #fff;
+    background: #334155;
+}
+
+.modal-body {
+    overflow-y: auto;
+    padding-top: 16px;
+    flex: 1;
+}
+
+.storage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.storage-card {
+    background: #1e293b;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #334155;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.storage-card:hover {
+    transform: translateY(-4px);
+    border-color: #38bdf8;
+}
+
+.storage-card-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+}
+
+.storage-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.storage-card-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(15, 23, 42, 0.85);
+    color: #38bdf8;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+}
+
+.storage-card-hover {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.storage-card:hover .storage-card-hover {
+    opacity: 1;
+}
+
+.storage-card-body {
+    padding: 10px 12px;
+}
+
+.storage-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #cbd5e1;
+    margin-bottom: 4px;
+}
+
+.storage-loading,
+.storage-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #94a3b8;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Lightbox Fullscreen Preview */
+.lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.9);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 12px;
+    border: 1px solid #334155;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.lightbox-caption {
+    margin-top: 12px;
+    color: #e2e8f0;
+    font-size: 13px;
+    background: #0f172a;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #1e293b;
+}
