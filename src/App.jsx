@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Camera, Receipt, Sparkles, ShieldCheck } from 'lucide-react';
+import { Camera, Receipt } from 'lucide-react';
 import Kegiatan from './Kegiatan';
 import Bon from './Bon';
 import './App.css';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('kegiatan');
-  const [isLoading, setIsLoading] = useState(true);
   const [isTabSwitching, setIsTabSwitching] = useState(false);
 
   useEffect(() => {
@@ -16,13 +15,7 @@ export default function App() {
     link.rel = 'stylesheet';
     document.head.appendChild(link);
 
-    // Simulasi SplashScreen/Loader Aplikasi
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
     return () => {
-      clearTimeout(timer);
       if (document.head.contains(link)) {
         document.head.removeChild(link);
       }
@@ -38,38 +31,6 @@ export default function App() {
     }, 250);
   };
 
-  // 1. Tampilan Splash Loader Awal (Tanpa Persentase)
-  if (isLoading) {
-    return (
-      <div className="app-loader-splash">
-        <div className="loader-card">
-          <div className="loader-logo-ring">
-            <div className="loader-inner-circle">
-              <ShieldCheck size={38} color="#0284c7" />
-            </div>
-            <div className="loader-orbit-dot" />
-          </div>
-
-          <div className="loader-text-group">
-            <span className="loader-badge">
-              <Sparkles size={12} /> GKPI IMMANUEL
-            </span>
-            <h2 className="loader-title">PEMUDA PEMUDI</h2>
-            <p className="loader-sub">Sistem Dokumentasi & Keuangan</p>
-          </div>
-
-          <div className="loader-bars-wave">
-            <div className="bar bar-1" />
-            <div className="bar bar-2" />
-            <div className="bar bar-3" />
-            <div className="bar bar-4" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 2. Tampilan Utama Aplikasi
   return (
     <div className="app-container">
       {/* Navigasi Tab Switcher */}
@@ -100,7 +61,7 @@ export default function App() {
 
       {/* Footer Aplikasi */}
       <footer className="app-footer">
-        <span>GKPI IMMANUEL</span> • DOKUMENTASI & KEUANGAN PEMUDA
+        <span>GKPI IMMANUEL</span> DOKUMENTASI & KEUANGAN PEMUDA
       </footer>
     </div>
   );
