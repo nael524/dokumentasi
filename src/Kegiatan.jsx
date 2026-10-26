@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Camera, Sparkles, Clock, Calendar, Check, X, Images, RefreshCw } from 'lucide-react';
+import { Camera, Sparkles, Clock, Calendar, Check, X, Images, RefreshCw, Tag, CheckCircle2 } from 'lucide-react';
 import { supabase } from './supabaseClient';
 import StorageDokumentasi from './StorageDokumentasi';
 import './Kegiatan.css';
@@ -7,11 +7,14 @@ import './Kegiatan.css';
 export default function Kegiatan() {
     const [isCameraOpen, setIsCameraOpen] = useState(false);
     const [isGalleryOpen, setIsGalleryOpen] = useState(false);
-    const [facingMode, setFacingMode] = useState('environment'); // 'environment' (belakang) atau 'user' (depan)
+    const [facingMode, setFacingMode] = useState('environment');
     const [capturedImage, setCapturedImage] = useState(null);
     const [metaData, setMetaData] = useState(null);
+    const [namaKegiatan, setNamaKegiatan] = useState('Latihan Koor Natal');
+    const [customKegiatan, setCustomKegiatan] = useState('');
     const [uploading, setUploading] = useState(false);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
@@ -19,9 +22,7 @@ export default function Kegiatan() {
 
     const DAYS = ['MINGGU', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU'];
 
-    // Buka Kamera berdasarkan facingMode yang aktif
     const startCameraStream = async (mode) => {
-        // Hentikan stream kamera lama jika ada
         if (streamRef.current) {
             streamRef.current.getTracks().forEach((track) => track.stop());
         }
@@ -43,10 +44,11 @@ export default function Kegiatan() {
     const openCamera = async () => {
         setIsCameraOpen(true);
         setCapturedImage(null);
+        setNamaKegiatan('Latihan Koor Natal');
+        setCustomKegiatan('');
         await startCameraStream(facingMode);
     };
 
-    // Fungsi Switch Kamera (Depan <-> Belakang)
     const switchCamera = async () => {
         const newMode = facingMode === 'environment' ? 'user' : 'environment';
         setFacingMode(newMode);
@@ -76,28 +78,13 @@ export default function Kegiatan() {
 
         const ctx = canvas.getContext('2d');
 
-        // Jika menggunakan kamera depan ('user'), balikkan gambar secara horisontal agar tidak cermin
         if (facingMode === 'user') {
             ctx.translate(canvas.width, 0);
             ctx.scale(-1, 1);
         }
 
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Reset transformasi canvas setelah gambar
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-        // Overlay Watermark Ringkas
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
-        ctx.fillRect(0, canvas.height - 70, canvas.width, 70);
-
-        ctx.fillStyle = '#C2F215';
-        ctx.font = 'bold 18px Poppins, sans-serif';
-        ctx.fillText(`GKPI IMMANUEL`, 20, canvas.height - 42);
-
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '14px Poppins, sans-serif';
-        ctx.fillText(`${hari}, ${tanggal} • ${jam} WIB`, 20, canvas.height - 18);
 
         const imageData = canvas.toDataURL('image/jpeg', 0.9);
         setCapturedImage(imageData);
@@ -107,12 +94,50 @@ export default function Kegiatan() {
         }
     };
 
+    const generateWatermarkedImage = () => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const finalNama = namaKegiatan === 'Lainnya' ? (customKegiatan || 'Kegiatan Pemuda') : namaKegiatan;
+
+        const img = new Image();
+        img.src = capturedImage;
+
+        return new Promise((resolve) => {
+            img.onload = () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+                ctx.fillRect(0, canvas.height - 90, canvas.width, 90);
+
+                ctx.fillStyle = '#C2F215';
+                ctx.font = 'bold 20px Poppins, sans-serif';
+                ctx.fillText(`GKPI IMMANUEL - ${finalNama.toUpperCase()}`, 20, canvas.height - 52);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '14px Poppins, sans-serif';
+                ctx.fillText(`${metaData.hari}, ${metaData.tanggal} | ${metaData.jam} WIB`, 20, canvas.height - 22);
+
+                resolve(canvas.toDataURL('image/jpeg', 0.9));
+            };
+        });
+    };
+
     const saveToDatabase = async () => {
         if (!capturedImage || !metaData) return;
+        const selectedKegiatan = namaKegiatan === 'Lainnya' ? customKegiatan.trim() : namaKegiatan;
+
+        if (!selectedKegiatan) {
+            alert('Silakan pilih atau isi nama kegiatan!');
+            return;
+        }
+
         setUploading(true);
 
         try {
-            const response = await fetch(capturedImage);
+            const finalImageBase64 = await generateWatermarkedImage();
+            const response = await fetch(finalImageBase64);
             const blob = await response.blob();
             const fileName = `kegiatan/${Date.now()}.jpg`;
 
@@ -133,6 +158,7 @@ export default function Kegiatan() {
                 .insert([
                     {
                         file_path: urlData.publicUrl,
+                        nama_kegiatan: selectedKegiatan,
                         hari: metaData.hari,
                         tanggal: metaData.tanggal,
                         jam: metaData.jam
@@ -141,10 +167,9 @@ export default function Kegiatan() {
 
             if (dbError) throw dbError;
 
-            alert('Dokumentasi berhasil disimpan!');
             closeCamera();
             setRefreshTrigger((prev) => prev + 1);
-            setIsGalleryOpen(true);
+            setShowSuccessModal(true);
         } catch (err) {
             alert('Gagal menyimpan: ' + err.message);
         } finally {
@@ -178,6 +203,7 @@ export default function Kegiatan() {
                 refreshTrigger={refreshTrigger}
             />
 
+            {/* Modal Kamera */}
             {isCameraOpen && (
                 <div className="modal-overlay">
                     <div className="modal-card">
@@ -216,6 +242,33 @@ export default function Kegiatan() {
                         ) : (
                             <>
                                 <img src={capturedImage} alt="Preview" className="result-img" />
+
+                                <div className="kegiatan-select-box">
+                                    <label className="select-label">
+                                        <Tag size={14} /> Pilih Nama Kegiatan:
+                                    </label>
+                                    <select
+                                        value={namaKegiatan}
+                                        onChange={(e) => setNamaKegiatan(e.target.value)}
+                                        className="select-input"
+                                    >
+                                        <option value="Latihan Koor Natal">1. Latihan Koor Natal</option>
+                                        <option value="Latihan Kegiatan Natal">2. Latihan Kegiatan Natal</option>
+                                        <option value="Rapat Natal">3. Rapat Natal</option>
+                                        <option value="Lainnya">Lainnya (Ketik Manual)</option>
+                                    </select>
+
+                                    {namaKegiatan === 'Lainnya' && (
+                                        <input
+                                            type="text"
+                                            placeholder="Masukkan nama kegiatan..."
+                                            value={customKegiatan}
+                                            onChange={(e) => setCustomKegiatan(e.target.value)}
+                                            className="text-input"
+                                        />
+                                    )}
+                                </div>
+
                                 <div className="meta-box">
                                     <div><Calendar size={14} /> {metaData.hari}, {metaData.tanggal}</div>
                                     <div><Clock size={14} /> {metaData.jam} WIB</div>
@@ -233,6 +286,32 @@ export default function Kegiatan() {
                         )}
 
                         <canvas ref={canvasRef} style={{ display: 'none' }} />
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Sukses Berhasil Disimpan */}
+            {showSuccessModal && (
+                <div className="modal-overlay">
+                    <div className="modal-card success-card">
+                        <div className="success-icon-wrapper">
+                            <CheckCircle2 size={56} className="success-check-icon" />
+                        </div>
+                        <h2 className="success-title">Berhasil Disimpan!</h2>
+                        <p className="success-desc">
+                            Dokumentasi kegiatan telah resmi tersimpan ke dalam sistem database.
+                        </p>
+                        <div className="modal-actions">
+                            <button
+                                onClick={() => {
+                                    setShowSuccessModal(false);
+                                    setIsGalleryOpen(true);
+                                }}
+                                className="btn-primary full-width"
+                            >
+                                Lihat di Arsip
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

@@ -1,5 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
+/* SEMBUNYIKAN SCROLLBAR SECARA GLOBAL UNTUK HALAMAN BON */
+*::-webkit-scrollbar,
+.bn-modal-card::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+* {
+    -ms-overflow-style: none !important;
+    /* IE & Edge */
+    scrollbar-width: none !important;
+    /* Firefox */
+}
+
 .bn-container {
     width: 100%;
     min-height: 100vh;
@@ -21,7 +36,7 @@
     background-color: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 20px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.08);
     box-sizing: border-box;
 }
 
@@ -74,26 +89,31 @@
 .bn-form-label {
     font-size: 12px;
     font-weight: 700;
-    color: #475569;
+    color: #d97706;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
 }
 
 .bn-form-input {
     width: 100%;
     padding: 10px 14px;
     border-radius: 10px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #fde68a;
+    background-color: #fffbeb;
     font-size: 13px;
+    font-weight: 600;
     font-family: inherit;
+    color: #0f172a;
     box-sizing: border-box;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
 }
 
 .bn-form-input:focus {
     border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    background-color: #ffffff;
 }
 
 /* BUTTONS */
@@ -112,20 +132,27 @@
     justify-content: center;
     gap: 8px;
     width: 100%;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
 }
 
 .bn-btn-primary:hover {
     background-color: #d97706;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+}
+
+.bn-btn-primary:active {
+    transform: scale(0.98);
 }
 
 .bn-btn-secondary {
     background-color: #ffffff;
-    color: #334155;
+    color: #d97706;
     font-weight: 700;
     font-size: 13px;
     padding: 12px 20px;
     border-radius: 12px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #fde68a;
     cursor: pointer;
     transition: all 0.2s ease;
     display: inline-flex;
@@ -136,10 +163,15 @@
 }
 
 .bn-btn-secondary:hover {
-    background-color: #f1f5f9;
+    background-color: #fffbeb;
+    border-color: #f59e0b;
 }
 
-/* MODAL */
+.bn-btn-secondary:active {
+    transform: scale(0.98);
+}
+
+/* MODAL OVERLAY */
 .bn-overlay {
     position: fixed;
     inset: 0;
@@ -158,9 +190,11 @@
     border: 1px solid #e2e8f0;
     width: 100%;
     max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
     border-radius: 20px;
     padding: 20px;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.2);
     color: #0f172a;
     display: flex;
     flex-direction: column;
@@ -176,8 +210,9 @@
 
 .bn-modal-top h3 {
     margin: 0;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
+    color: #d97706;
 }
 
 .bn-top-actions {
@@ -189,15 +224,16 @@
 .bn-btn-icon {
     background: none;
     border: none;
-    color: #64748b;
+    color: #d97706;
     cursor: pointer;
-    padding: 4px;
+    padding: 6px;
     border-radius: 8px;
+    transition: background-color 0.2s;
 }
 
 .bn-btn-icon:hover {
-    color: #0f172a;
-    background-color: #f1f5f9;
+    color: #b45309;
+    background-color: #fef3c7;
 }
 
 .bn-camera-wrapper {
@@ -222,6 +258,7 @@
 
 .bn-result-img {
     border: 2px solid #f59e0b;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
 }
 
 .bn-modal-actions {
@@ -237,6 +274,85 @@
 
 .bn-flex-1 {
     flex: 1;
+}
+
+/* ANIMASI SUKSES POPUP */
+.bn-success-card {
+    align-items: center;
+    text-align: center;
+    padding: 32px 24px;
+    animation: bnPopUpScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bn-success-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #f0fdf4;
+    border: 2px solid #bbf7d0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #16a34a;
+    margin-bottom: 8px;
+    animation: bnPulseGlow 1.5s infinite alternate;
+}
+
+.bn-success-check-icon {
+    animation: bnCheckBounce 0.5s ease-out forwards;
+}
+
+.bn-success-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.bn-success-desc {
+    font-size: 13px;
+    color: #64748b;
+    margin: 6px 0 16px 0;
+    line-height: 1.5;
+}
+
+/* KEYFRAMES ANIMASI */
+@keyframes bnPopUpScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bnCheckBounce {
+    0% {
+        transform: scale(0) rotate(-45deg);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.2) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes bnPulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.2);
+    }
+
+    100% {
+        box-shadow: 0 0 0 12px rgba(22, 163, 74, 0);
+    }
 }
 
 @media (min-width: 640px) {

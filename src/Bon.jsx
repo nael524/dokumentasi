@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Camera, Receipt, Check, X, Tag, DollarSign, RefreshCw, Images } from 'lucide-react';
+import { Camera, Receipt, Check, X, Tag, DollarSign, RefreshCw, Images, CheckCircle2 } from 'lucide-react';
 import { supabase } from './supabaseClient';
 import StorageBon from './StorageBon';
 import './Bon.css';
@@ -13,6 +13,7 @@ export default function Bon() {
     const [hargaPembelian, setHargaPembelian] = useState('');
     const [uploading, setUploading] = useState(false);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
@@ -86,7 +87,7 @@ export default function Bon() {
     };
 
     const saveToDatabase = async () => {
-        if (!jenisPembelian || !hargaPembelian) {
+        if (!jenisPembelian.trim() || !hargaPembelian) {
             alert('Harap isi Jenis Pembelian dan Harga Pembelian!');
             return;
         }
@@ -119,7 +120,7 @@ export default function Bon() {
                 .insert([
                     {
                         file_path: urlData.publicUrl,
-                        jenis_pembelian: jenisPembelian,
+                        jenis_pembelian: jenisPembelian.trim(),
                         harga_pembelian: parseFloat(hargaPembelian) || 0,
                         hari,
                         tanggal,
@@ -129,10 +130,9 @@ export default function Bon() {
 
             if (dbError) throw dbError;
 
-            alert('Bukti Bon berhasil disimpan ke Supabase!');
             closeCamera();
             setRefreshTrigger((prev) => prev + 1);
-            setIsGalleryOpen(true);
+            setShowSuccessModal(true);
         } catch (err) {
             alert('Gagal menyimpan: ' + err.message);
         } finally {
@@ -166,6 +166,7 @@ export default function Bon() {
                 refreshTrigger={refreshTrigger}
             />
 
+            {/* Modal Kamera */}
             {isCameraOpen && (
                 <div className="bn-overlay">
                     <div className="bn-modal-card">
@@ -239,6 +240,32 @@ export default function Bon() {
                         )}
 
                         <canvas ref={canvasRef} style={{ display: 'none' }} />
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Sukses Berhasil Disimpan */}
+            {showSuccessModal && (
+                <div className="bn-overlay">
+                    <div className="bn-modal-card bn-success-card">
+                        <div className="bn-success-icon-wrapper">
+                            <CheckCircle2 size={56} className="bn-success-check-icon" />
+                        </div>
+                        <h2 className="bn-success-title">Bon Berhasil Disimpan!</h2>
+                        <p className="bn-success-desc">
+                            Bukti transaksi pembayaran telah tersimpan dengan aman di database keuangan.
+                        </p>
+                        <div className="bn-modal-actions">
+                            <button
+                                onClick={() => {
+                                    setShowSuccessModal(false);
+                                    setIsGalleryOpen(true);
+                                }}
+                                className="bn-btn-primary bn-full-width"
+                            >
+                                Lihat Arsip Bon
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

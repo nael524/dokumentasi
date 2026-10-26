@@ -212,6 +212,49 @@
     box-shadow: 0 0 12px rgba(2, 132, 199, 0.2);
 }
 
+/* TAMBAHAN UNTUK DROPDOWN NAMA KEGIATAN (SESUAI TEMA BIRU MUDA LAMA) */
+.kegiatan-select-box {
+    background-color: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.select-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0284c7;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.select-input,
+.text-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #bae6fd;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #0f172a;
+    background-color: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.select-input:focus,
+.text-input:focus {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
 .meta-box {
     background-color: #f0f9ff;
     border: 1px solid #bae6fd;
@@ -254,5 +297,84 @@
     .btn-primary,
     .btn-secondary {
         flex: 1;
+    }
+}
+
+/* POPUP SUKSES & ANIMASI CEKLIS */
+.success-card {
+    align-items: center;
+    text-align: center;
+    padding: 32px 24px;
+    animation: popUpScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.success-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #f0fdf4;
+    border: 2px solid #bbf7d0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #16a34a;
+    margin-bottom: 8px;
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+.success-check-icon {
+    animation: checkBounce 0.5s ease-out forwards;
+}
+
+.success-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.success-desc {
+    font-size: 13px;
+    color: #64748b;
+    margin: 6px 0 16px 0;
+    line-height: 1.5;
+}
+
+/* KEYFRAMES ANIMASI */
+@keyframes popUpScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes checkBounce {
+    0% {
+        transform: scale(0) rotate(-45deg);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.2) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.2);
+    }
+
+    100% {
+        box-shadow: 0 0 0 12px rgba(22, 163, 74, 0);
     }
 }
