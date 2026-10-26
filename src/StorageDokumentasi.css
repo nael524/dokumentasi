@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
 /* =========================================================
-   1. SEMBUNYIKAN ALL SCROLLBAR (GLOBAL & LOCAL)
+   1. SEMBUNYIKAN SCROLLBAR GLOBAL & LOKAL
    ========================================================= */
 *::-webkit-scrollbar,
 .modal-body::-webkit-scrollbar,
@@ -13,13 +13,11 @@
 
 * {
     -ms-overflow-style: none !important;
-    /* IE & Edge */
     scrollbar-width: none !important;
-    /* Firefox */
 }
 
 /* =========================================================
-   2. MODAL CONTAINER ARSIP
+   2. CONTAINER MODAL ARSIP DOKUMENTASI
    ========================================================= */
 .storage-modal {
     max-width: 680px;

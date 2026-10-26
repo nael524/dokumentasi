@@ -253,7 +253,7 @@ export default function Bon() {
                         </div>
                         <h2 className="bn-success-title">Bon Berhasil Disimpan!</h2>
                         <p className="bn-success-desc">
-                            Bukti transaksi pembayaran telah tersimpan dengan aman di database keuangan.
+                            Bukti transaksi telah resmi tersimpan di database keuangan.
                         </p>
                         <div className="bn-modal-actions">
                             <button

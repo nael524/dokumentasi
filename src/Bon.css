@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
-/* SEMBUNYIKAN SCROLLBAR SECARA GLOBAL UNTUK HALAMAN BON */
+/* HAPUS SEMUA SCROLLBAR HASIL INLINE */
 *::-webkit-scrollbar,
 .bn-modal-card::-webkit-scrollbar {
     display: none !important;
@@ -10,9 +10,7 @@
 
 * {
     -ms-overflow-style: none !important;
-    /* IE & Edge */
     scrollbar-width: none !important;
-    /* Firefox */
 }
 
 .bn-container {
@@ -138,11 +136,6 @@
 .bn-btn-primary:hover {
     background-color: #d97706;
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
-}
-
-.bn-btn-primary:active {
-    transform: scale(0.98);
 }
 
 .bn-btn-secondary {
@@ -165,10 +158,6 @@
 .bn-btn-secondary:hover {
     background-color: #fffbeb;
     border-color: #f59e0b;
-}
-
-.bn-btn-secondary:active {
-    transform: scale(0.98);
 }
 
 /* MODAL OVERLAY */
@@ -258,7 +247,6 @@
 
 .bn-result-img {
     border: 2px solid #f59e0b;
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
 }
 
 .bn-modal-actions {
@@ -316,7 +304,6 @@
     line-height: 1.5;
 }
 
-/* KEYFRAMES ANIMASI */
 @keyframes bnPopUpScale {
     0% {
         opacity: 0;
