@@ -14,12 +14,57 @@
     max-width: 680px !important;
     max-height: 85vh !important;
     padding: 16px !important;
+    display: flex;
+    flex-direction: column;
 }
 
+/* SUMMARY TOTAL BAR */
+.storage-summary-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-top: 10px;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.summary-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.summary-value {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.summary-value.green {
+    color: #16a34a;
+}
+
+.summary-divider {
+    width: 1px;
+    height: 24px;
+    background-color: #fde68a;
+}
+
+/* BODY & GRID */
 .storage-bon-body {
     overflow-y: auto;
-    max-height: 65vh;
-    padding-top: 10px;
+    max-height: 60vh;
+    padding-top: 14px;
 }
 
 .storage-bon-loading,
@@ -43,6 +88,7 @@
     overflow: hidden;
     cursor: pointer;
     transition: all 0.2s ease;
+    position: relative;
 }
 
 .storage-bon-card:hover {
@@ -73,12 +119,45 @@
     font-weight: 700;
     padding: 2px 6px;
     border-radius: 4px;
+    z-index: 2;
+}
+
+/* ACTION BUTTONS (EDIT & DELETE) */
+.storage-bon-card-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 4px;
+    z-index: 5;
+}
+
+.btn-card-action {
+    background-color: rgba(15, 23, 42, 0.75);
+    border: none;
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-card-action.edit:hover {
+    background-color: #f59e0b;
+}
+
+.btn-card-action.delete:hover {
+    background-color: #ef4444;
 }
 
 .storage-bon-hover {
     position: absolute;
     inset: 0;
-    background-color: rgba(245, 158, 11, 0.7);
+    background-color: rgba(245, 158, 11, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,4 +201,16 @@
     font-size: 10px;
     color: #64748b;
     margin-top: 4px;
+}
+
+/* EDIT MODAL STYLES */
+.edit-bon-modal {
+    max-width: 380px !important;
+    gap: 12px !important;
+}
+
+.edit-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
